@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { colors, spacing, radius, fontSize, fontWeight } from "../src/ui/theme";
+import { colors, spacing, radius, fontSize, fontWeight } from "../../src/ui/theme";
 
 export default function ConsultationScreen() {
   const router = useRouter();

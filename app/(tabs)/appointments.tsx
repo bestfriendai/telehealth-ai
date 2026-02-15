@@ -104,8 +104,8 @@ export default function AppointmentsScreen() {
                 <Text style={styles.detailText}>{appointment.date}</Text>
               </View>
               <View style={styles.detailRow}>
-                <Text style={styles.detailIcon}>>
-                <Text style={styles.detail🕐</TextText}>{appointment.time}</Text>
+                <Text style={styles.detailIcon}>🕐</Text>
+                <Text style={styles.detailText}>{appointment.time}</Text>
               </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailIcon}>{appointment.type === "video" ? "📹" : "🏥"}</Text>

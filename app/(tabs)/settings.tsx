@@ -1,7 +1,16 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from "react-native";
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import { useRouter } from "expo-router";
 import { colors, spacing, radius, fontSize, fontWeight } from "../../src/ui/theme";
+
+type MenuItemRoute = { icon: string; label: string; route: string; toggle?: never; value?: never; setValue?: never };
+type MenuItemToggle = { icon: string; label: string; toggle: boolean; value: boolean; setValue: Dispatch<SetStateAction<boolean>>; route?: never };
+type MenuItem = MenuItemRoute | MenuItemToggle;
+
+type MenuSection = {
+  title: string;
+  items: MenuItem[];
+};
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -9,7 +18,7 @@ export default function SettingsScreen() {
   const [reminders, setReminders] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
 
-  const menuSections = [
+  const menuSections: MenuSection[] = [
     {
       title: "Account",
       items: [
@@ -84,11 +93,11 @@ export default function SettingsScreen() {
                   styles.menuItem,
                   itemIndex === section.items.length - 1 && styles.menuItemLast
                 ]}
-                onPress={() => item.route && router.push(item.route)}
+                onPress={() => "route" in item && item.route && router.push(item.route)}
               >
                 <Text style={styles.menuIcon}>{item.icon}</Text>
                 <Text style={styles.menuLabel}>{item.label}</Text>
-                {item.toggle ? (
+                {"toggle" in item && item.toggle ? (
                   <Switch
                     value={item.value}
                     onValueChange={item.setValue}

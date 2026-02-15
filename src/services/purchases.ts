@@ -1,8 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
-import { getEntitlements, purchasePackage, getPackages, Package } from '@revenuecat/purchases';
-// Note: In production, install @revenuecat/purchases
-// For now, we'll use a mock implementation
+import { useState } from 'react';
+// Note: In production, install react-native-purchases
 
 export const PRODUCT_IDS = {
   MONTHLY: 'telehealth_premium_monthly',
@@ -15,79 +12,45 @@ export type SubscriptionStatus = {
   productId: string | null;
 };
 
+// Mock package type
+export type Package = {
+  identifier: string;
+  product: {
+    productId: string;
+    title: string;
+    description: string;
+    price: string;
+    priceString: string;
+  };
+};
+
 export function useRevenueCat() {
   const [status, setStatus] = useState<SubscriptionStatus>({
     isPremium: false,
     expirationDate: null,
     productId: null,
   });
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    checkSubscriptionStatus();
-  }, []);
+  const [packages, setPackages] = useState<Package[]>([]);
 
-  const checkSubscriptionStatus = async () => {
-    try {
-      // In production, this would call RevenueCat API
-      // For now, check AsyncStorage for demo
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error checking subscription status:', error);
-      setIsLoading(false);
-    }
+  // Mock implementations - replace with real RevenueCat SDK in production
+  const purchasePackage = async (_package: Package): Promise<boolean> => {
+    // In production, use:
+    // const { purchaserInfo } = await Purchases.purchasePackage(_package);
+    console.log('Mock purchase:', _package.identifier);
+    return true;
   };
 
-  const purchaseSubscription = async (productId: string): Promise<boolean> => {
-    try {
-      // In production, this would initiate RevenueCat purchase
-      // For now, simulate successful purchase
-      setStatus({
-        isPremium: true,
-        expirationDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        productId,
-      });
-      return true;
-    } catch (error) {
-      console.error('Purchase error:', error);
-      return false;
-    }
-  };
-
-  const restorePurchases = async (): Promise<boolean> => {
-    try {
-      // In production, this would restore purchases from RevenueCat
-      return false;
-    } catch (error) {
-      console.error('Restore error:', error);
-      return false;
-    }
+  const restorePurchases = async (): Promise<SubscriptionStatus> => {
+    // In production, use:
+    // const purchaserInfo = await Purchases.restoreTransactions();
+    return status;
   };
 
   return {
     status,
-    isLoading,
-    purchaseSubscription,
+    packages,
+    purchasePackage,
     restorePurchases,
   };
 }
-
-// Mock packages for display
-export const MOCK_PACKAGES = [
-  {
-    identifier: PRODUCT_IDS.MONTHLY,
-    packageType: 'MONTHLY' as const,
-    product: {
-      priceString: '$9.99',
-      productId: PRODUCT_IDS.MONTHLY,
-    },
-  },
-  {
-    identifier: PRODUCT_IDS.ANNUAL,
-    packageType: 'ANNUAL' as const,
-    product: {
-      priceString: '$49.99',
-      productId: PRODUCT_IDS.ANNUAL,
-    },
-  },
-];
