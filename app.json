@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "TeleHealth AI",
+    "slug": "telehealth-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#008B8B"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.telehealthai.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#008B8B"
+      },
+      "package": "com.telehealthai.app"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
